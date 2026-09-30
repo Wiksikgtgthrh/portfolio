@@ -1,0 +1,6 @@
+.env
+.git
+data/db.json
+data/auth.json
+data/.secret
+uploads/*

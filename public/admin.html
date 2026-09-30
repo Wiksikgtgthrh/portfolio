@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Админка — портфолио</title>
+  <link rel="icon" href="/img/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/admin.css" />
+</head>
+<body>
+  <!-- Экран входа -->
+  <div class="auth" id="auth" hidden>
+    <form class="auth__card" id="authForm">
+      <div class="brand"><span class="brand__mark">&lt;/&gt;</span> Админка</div>
+      <label class="f"><span>Email</span><input type="email" name="email" autocomplete="username" required /></label>
+      <label class="f"><span>Пароль</span><input type="password" name="password" autocomplete="current-password" required /></label>
+      <p class="err" id="authErr"></p>
+      <button class="b b--primary b--block" type="submit">Войти</button>
+      <a class="auth__back" href="/">← На сайт</a>
+    </form>
+  </div>
+
+  <!-- Панель -->
+  <div class="app" id="app" hidden>
+    <aside class="side">
+      <div class="brand"><span class="brand__mark">&lt;/&gt;</span> Админка</div>
+      <nav class="side__nav">
+        <button class="tab is-active" data-tab="content">📝 <span>Тексты сайта</span></button>
+        <button class="tab" data-tab="projects">🗂️ <span>Работы</span></button>
+        <button class="tab" data-tab="media">🎞️ <span>Медиатека</span></button>
+        <button class="tab" data-tab="account">🔐 <span>Аккаунт</span></button>
+      </nav>
+      <div class="side__foot">
+        <a class="b b--ghost b--block" href="/" target="_blank">↗ Открыть сайт</a>
+        <button class="b b--ghost b--block" id="logout">Выйти</button>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <h1 id="pageTitle">Тексты сайта</h1>
+        <div class="topbar__right">
+          <span class="dirty" id="dirty" hidden>● Есть несохранённые изменения</span>
+          <button class="b b--primary" id="saveBtn" hidden>Сохранить</button>
+        </div>
+      </header>
+
+      <section class="panel" data-panel="content">
+        <p class="hint">Здесь можно изменить любой текст на сайте. Разделы раскрываются по клику. Не забудьте нажать «Сохранить».</p>
+        <div id="contentForm"></div>
+      </section>
+
+      <section class="panel" data-panel="projects" hidden>
+        <div class="row row--between">
+          <p class="hint">Добавляйте работы с описанием, картинками, видео и ссылками. Скрытые работы не видны на сайте.</p>
+          <button class="b b--primary" id="addProject">+ Добавить работу</button>
+        </div>
+        <div class="plist" id="projectList"></div>
+      </section>
+
+      <section class="panel" data-panel="media" hidden>
+        <label class="drop" id="drop">
+          <input type="file" id="mediaInput" multiple accept="image/*,video/*,.pdf,.zip" hidden />
+          <div class="drop__icon">⬆️</div>
+          <b>Перетащите файлы сюда или нажмите для выбора</b>
+          <span>Картинки, видео (MP4/WebM/MOV), PDF, ZIP</span>
+        </label>
+        <div class="uploads" id="uploadQueue"></div>
+        <div class="mgrid" id="mediaGrid"></div>
+      </section>
+
+      <section class="panel" data-panel="account" hidden>
+        <form class="card acc" id="pwdForm">
+          <h3>Смена почты и пароля</h3>
+          <label class="f"><span>Email для входа</span><input type="email" name="email" required /></label>
+          <label class="f"><span>Текущий пароль</span><input type="password" name="current" autocomplete="current-password" required /></label>
+          <label class="f"><span>Новый пароль (мин. 8 символов)</span><input type="password" name="next" autocomplete="new-password" minlength="8" required /></label>
+          <p class="err" id="pwdErr"></p>
+          <button class="b b--primary" type="submit">Обновить</button>
+        </form>
+      </section>
+    </main>
+  </div>
+
+  <!-- Редактор работы -->
+  <div class="drawer" id="drawer" aria-hidden="true">
+    <div class="drawer__backdrop" data-close></div>
+    <div class="drawer__panel">
+      <div class="drawer__head">
+        <h2 id="drawerTitle">Работа</h2>
+        <button class="icon-btn" data-close aria-label="Закрыть">×</button>
+      </div>
+      <form class="drawer__body" id="projectForm"></form>
+      <div class="drawer__foot">
+        <button class="b b--ghost" data-close type="button">Отмена</button>
+        <button class="b b--primary" id="projectSave" type="button">Сохранить работу</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Выбор из медиатеки -->
+  <div class="drawer drawer--picker" id="picker" aria-hidden="true">
+    <div class="drawer__backdrop" data-close></div>
+    <div class="drawer__panel">
+      <div class="drawer__head"><h2>Выбрать файл</h2><button class="icon-btn" data-close>×</button></div>
+      <div class="drawer__body"><div class="mgrid mgrid--pick" id="pickerGrid"></div></div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+  <script src="/js/admin.js" defer></script>
+</body>
+</html>
